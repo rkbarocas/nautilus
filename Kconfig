@@ -1394,7 +1394,13 @@ menu "Runtimes"
             bool "Racket RT (via Multiverse)";
 	    default y
             help 
-              Racket support (via Multiverse only - no special code)
+             Racket support (via Multiverse only - no special code)
+
+       config WAMR_RT
+            bool "wamr RT";
+       default y
+            help
+              Support for wasm-micro-runtime (wamr)
 
 endmenu
 
