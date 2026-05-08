@@ -1,4 +1,4 @@
-#include "platform_api_vmcore"
+#include "rt/wamr/platform_api_vmcore.h"
 
 // Set up platform resources (none currently)
 int bh_platform_init(void)
