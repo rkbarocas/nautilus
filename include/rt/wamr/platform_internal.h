@@ -8,7 +8,19 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdarg.h>
-#include <stdlib.h>
+// #include <stdlib.h>
+
+// reimplementation of stdlib labs() to avoid pulling in conflicting off_t definition (is this the right approach?)
+long int labs (long int n)
+{
+        if (n >= 0)
+        {
+                return n;
+        } else
+        {
+                return -n;
+        }
+}
 
 typedef bool_t bool;
 
