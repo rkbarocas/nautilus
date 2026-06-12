@@ -1,6 +1,5 @@
 #include "nautilus/nautilus.h"
 #include "nautilus/mm.h"
-#include "rt/wamr/platform_api_vmcore.h" //TODO
 
 void* os_malloc(unsigned size)
 {

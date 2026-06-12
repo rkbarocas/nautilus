@@ -1,6 +1,6 @@
 #include "nautilus/nautilus.h"
-#include "rt/wamr/platform_api_vmcore.h" //TODO
-#include "nautilus/mcslock.h"
+#include "nautilus/semaphore.h"
+#include "rt/wamr/platform_internal.h"
 
 //TODO: not quite sure what to do here--does nk have a true mutex?
 // this implementation spins
@@ -11,7 +11,7 @@ int os_mutex_init(korp_mutex* mutex)
         {
                 return 1;
         }
-        nk_mcs_lock_t* new = malloc(sizeof(nk_mcs_lock_t));
+        struct nk_semaphore* new = nk_semaphore_create(NULL, 1, NK_SEMAPHORE_DEFAULT, NULL); // name, initial count, type, characteristics; name and characteristics are both optional
         if (!new) {
                 return 2;
         }
@@ -25,7 +25,7 @@ int os_mutex_destroy(korp_mutex* mutex)
                 return 1;
         }
         
-        free(mutex); // we shouldn't have to clear the queue here, i think?
+        nk_semaphore_release(mutex); // i think this is the right function?
         
         return 0;
 }
@@ -36,8 +36,7 @@ int os_mutex_lock(korp_mutex* mutex)
                 return 1;
         }
 
-        nk_mcs_lock_t me; // since this blocks, out of scope isn't an issue?
-        nk_mcs_lock(mutex, &me);
+        nk_semaphore_down(mutex);
 
         return 0;
 }
@@ -48,7 +47,7 @@ int os_mutex_unlock(korp_mutex* mutex)
                 return 1;
         }
 
-        nk_mcs_unlock
+        nk_semaphore_up(mutex);
 
-
-// im not sure this will actually work--mcslocks need a persistent "me" between lock and unlock
+        return 0;
+}
